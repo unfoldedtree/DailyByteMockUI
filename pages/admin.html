@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Byte | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="../assets/evo-calendar/css/evo-calendar.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/styles/admin.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/styles/canvas.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/styles/layout.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="outer-div">
+    <div class="menu-div">
+        <div class="menu-close"><i class="fas fa-times"></i></div>
+        <div class="menu-list">
+            <div class="menu-item"><a href="/">Dashboard</a></div>
+            <div class="menu-item"><a href="#">Profile</a></div>
+            <div class="menu-item"><a href="/pages/admin.html">Admin</a></div>
+            <div class="menu-item"><a href="#">Settings</a></div>
+            <div class="menu-item"><a href="#">Logout</a></div>
+        </div>
+    </div>    
+    <div id="container-div" class="container-div">
+        <div class="header">
+            <div class="logo"></div>
+            <div class="head-menu">
+                <span>Daily Byte</span>
+                <div class="main-menu">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+        </div>
+        <div class="head-row">
+            <div class="add-text">
+                <h4>Create Slide</h4>
+                <input id="theText" type="text" placeholder="Insert text...">
+                <select id="font-selector">
+                    <option value="Arial">Arial</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                    <option value="consola">Consolas</option>
+                </select>
+                <select id="font-size">
+                    <option value="40">40</option>
+                    <option value="80">80</option>
+                    <option value="100">100</option>
+                    <option value="120">120</option>
+                </select>
+                <input type="color" id="font-color" name="font-color" value="#e66465">
+                <button id="submit">Add Text</button>
+            </div>
+            <!-- <canvas id="canvas" width="1024" height="768"></canvas> -->
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="footer-div">
+            <span><small>Copyright © 2021 Dillard's Inc.</small></span>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/evo-calendar/js/evo-calendar.js"></script>
+    <script src="../assets/scripts/layout.js"></script>
+    <script src="../assets/scripts/canvas.js"></script>
+    <script src="../assets/scripts/calendar.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+#theText {
+  width: 10em;
+}
+
+.head-row {
+    margin: 0 auto;
+    flex-direction: column;
+    width: 80% !important;
+    align-items: flex-start !important;
+}
+
+input[type="text"] {
+    border: none;
+    border-radius: 25px;
+    width: 250px !important;
+    padding: 5px 10px 5px 20px;
+    margin-right: 10px;
+}
+
+#canvas {
+    border: 1px solid #000;
+    width: 100%;
+    margin: 20px 0px;
+    min-height: 70vh;
+    /* width: 1024px;
+    height: 768px; */
+}
+
+button {
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 25px;
+  border: none;
+  padding: 5px 10px;
+}
