@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+html {
+
+}
+
+body {
+
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.header {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px 15px 15px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    background: url("../images/dillards_logo.png");
+    width: 200px;
+    height: 45px;
+    background-repeat: no-repeat;
+}
+
+.header .head-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header .head-menu > span {
+    font-size: 150%;
+}
+
+.main-menu {
+    transition: transform .3s ease;
+    margin-top: 2px;
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.main-menu:hover {
+    background-color: rgb(235, 235, 235);
+}
+
+/* .outer-div {
+    margin: 0 auto;
+    width: 85vw;
+} */
+
+.container-div {
+    background-color: #f1f1f1;
+    /* background-color: #fff; */
+    min-height: 100vh;
+    position: relative;
+    padding: 0 0 15px 0;
+}
+
+.container-div.open {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container-div.open:after {
+    content: " ";
+    z-index: 100;
+    display: block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.menu-div {
+    background-color: #fff;
+    z-index: 1000000;
+    top: 0;
+    right: 0;
+    min-height: 100vh;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    transition: width .3s ease;
+}
+
+.menu-div.open {
+    width: 250px;
+    box-shadow: rgb(0 0 0 / 15%) 0px 2px 8px;
+}
+
+.menu-close {
+    cursor: pointer;
+    position: absolute;
+    font-size: 125%;
+    left: 10px;
+    top: 10px;
+}
+
+.menu-list {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.menu-list .menu-item {
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 10px 10px 50px;
+}
+
+.menu-list .menu-item a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    margin-bottom: 0 !important;
+    transition: transform 0.3s ease;
+}
+
+.menu-list .menu-item:hover {
+    background-color: #f1f1f1;
+}
+
+.menu-item:hover a {
+    transform: translateX(-5px);
+}
+
+.head-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 15px 0px 15px;
+}
+
+.head-row .head-date {
+    font-size: 75%;
+    font-weight: 500;
+}
+
+.head-row .head-explore > span {
+    font-size: 175%;
+    font-weight: 500;
+}
+
+.head-search {
+    position: relative;
+    border-radius: 25px;
+    padding: 10px 15px;
+    background-color: #fff;
+    width: 400px;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+}
+
+.head-search div:first-of-type {
+    margin-right: 10px;
+}
+
+.head-search input {
+    outline: none;
+    text-decoration: none;
+    border: none;
+    width: 300px;
+}
+
+.head-row .bars {
+    position: absolute;
+    right: 20px;
+    font-size: 110%;
+}
+
+.today-div {
+    margin-top: 25px;
+    width: 100%;
+}
+
+.today-text {
+    width: 150px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+    font-size: 125%;
+    cursor: pointer;
+}
+
+.today-text i {
+    padding-left: 7px;
+    -webkit-transition: transform .3s ease;
+    -o-transition: transform .3s ease;
+    transition: transform .3s ease;
+}
+
+.today-text:hover i {
+    transform: translateX(5px);
+}
+
+.today-text i {
+    font-size: 90%;
+}
+
+.today-carousel-outer {
+    margin: 0 15px;
+}
+
+.today-carousel {
+    width: 100%;
+    padding-bottom: 7px;
+    overflow: auto;
+    display: inline-flex;
+}
+
+.today-carousel::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.today-carousel::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
+}
+
+.today-carousel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.today-item {
+    flex: 0 0 auto;
+    position: relative;
+    cursor: pointer;
+    margin-right: 25px;
+    width: 55vw;
+    height: 450px;
+    max-width: 600px;
+    max-height: 450px;
+    min-width: 325px;
+    border-radius: 10px; 
+    padding: 0;
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.today-item:first-of-type {
+    margin-left: 3px;
+}
+
+.today-item:last-of-type {
+    margin-right: 3px;
+}
+
+.today-item .today-date {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border-radius: 10px;
+    background-color: #fff;
+    width: 75px;
+    height: 75px;
+    z-index: 50;
+}
+
+.today-date .today-month {
+    margin-top: 5px;
+    position: absolute;
+    width: 100%;
+    font-size: 150%;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c4c4c4;
+}
+
+.today-date .today-day {
+    position: absolute;
+    width: 100%;
+    font-size: 200%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 29px;
+}
+
+.calendar-outer-div {
+    margin: 50px 15px 10px 15px;
+}
+
+.footer-div {
+    padding-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    .head-row {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .head-left {
+        width: 100%;
+    }
+
+    .head-right {
+        width: 100%;
+    }
+
+    .head-row .head-search {
+        width: 100%;
+    }
+
+    .head-search input {
+        width: 100%;
+    }
+
+    .head-row .head-explore span {
+        font-size: 150%;
+    }
+
+    .head-menu span {
+        display: none;
+    }
+
+    .menu-div.open {
+        width: 45vw;
+    }   
+}
+
+@media screen and (max-width: 425px) {
+    .menu-div.open {
+        width: 100vw;
+    }   
+}
