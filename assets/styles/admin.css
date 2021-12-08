@@ -3,13 +3,99 @@
 }
 
 .head-row {
-    margin: 0 auto;
-    flex-direction: column;
-    width: 80% !important;
-    align-items: flex-start !important;
+    display: flex;
+    padding: 15px 15px 0px 15px;
+    justify-content: center !important;
+    /* flex-direction: row; */
+    /* width: 80% !important; */
+    /* align-items: flex-start !important; */
 }
 
-input[type="text"] {
+.interface {
+    width: 100%;
+    display: flex;
+}
+
+.slide-tools {
+    margin: 20px 0 20px 2px;
+    width: 250px;
+    border: 1px solid #000;
+    background-color: #fff;
+    height: 576;
+}
+
+.layer-editor-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 5px 0;
+}
+
+.layer-editor {
+    padding: 10px;
+}
+
+.layer-editor i {
+    cursor: pointer;
+}
+
+.layer-editor-input-row {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.editor-input {
+    outline: none;
+    padding: 2px 1px;
+    width: 150px;
+    border: none;
+    border-bottom: 1px solid #000;
+}
+
+.editor-size {
+    width: 85px;
+}
+
+.editor-label {
+    display: block;
+    width: 50px;
+}
+
+.layers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.layer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.layer div {
+    width: 150px;
+    border: none;
+    border-bottom: 1px solid;
+}
+
+.layer i {
+    cursor: pointer;
+    margin: 0px 10px;
+}
+
+.add-text {
+    display: flex;
+}
+
+.newText {
     border: none;
     border-radius: 25px;
     width: 250px !important;
@@ -17,13 +103,41 @@ input[type="text"] {
     margin-right: 10px;
 }
 
+#font-size, #font-selector {
+    outline: none;
+    border-radius: 25px;
+    border: none;
+    padding: 5px 10px 5px 20px;
+    margin-right: 10px;
+}
+
+input[type=color] {
+    width: 30px;
+    height: 30px; 
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+input[type=color]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+}
+
+input[type=color]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+}
+
 #canvas {
     border: 1px solid #000;
-    width: 100%;
+    /* width: 80%; */
     margin: 20px 0px;
-    min-height: 70vh;
-    /* width: 1024px;
-    height: 768px; */
+    /* min-height: 70vh; */
+    width: 1024px;
+    height: 576px;
 }
 
 button {

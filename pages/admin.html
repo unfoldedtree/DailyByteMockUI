@@ -34,25 +34,75 @@
             </div>
         </div>
         <div class="head-row">
-            <div class="add-text">
+            <div class="slide-editor">
                 <h4>Create Slide</h4>
-                <input id="theText" type="text" placeholder="Insert text...">
-                <select id="font-selector">
-                    <option value="Arial">Arial</option>
-                    <option value="Comic Sans MS">Comic Sans MS</option>
-                    <option value="consola">Consolas</option>
-                </select>
-                <select id="font-size">
-                    <option value="40">40</option>
-                    <option value="80">80</option>
-                    <option value="100">100</option>
-                    <option value="120">120</option>
-                </select>
-                <input type="color" id="font-color" name="font-color" value="#e66465">
-                <button id="submit">Add Text</button>
+                <div class="add-text">
+                    <input id="theText" class="newText" type="text" placeholder="Insert text...">
+                    <select id="font-selector">
+                        <option value="Arial">Arial</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                        <option value="consola">Consolas</option>
+                    </select>
+                    <select id="font-size">
+                        <option value="80">80</option>
+                        <option value="100">100</option>
+                        <option value="120">120</option>
+                        <option value="140">140</option>
+                    </select>
+                    <input type="color" id="font-color" name="font-color" value="#e66465">
+                    <button id="submit">Add Text</button>
+                </div>
+                <div class="interface">
+                    <canvas id="canvas"></canvas>
+                    <div class="slide-tools">
+                        <div class="layer-editor">
+                            <div class="layer-editor-header">
+                                <span>Edit Layer</span>
+                                <i class="fas fa-chevron-up"></i>
+                            </div>
+                            <div class="layer-editor-input-row">
+                                <span class="editor-label">Text: </span>
+                                <input class="editor-input">
+                            </div>
+                            <div class="layer-editor-input-row">
+                                <span class="editor-label">Font: </span>
+                                <select class="editor-input">
+                                    <option value="Arial">Arial</option>
+                                    <option value="Comic Sans MS">Comic Sans MS</option>
+                                    <option value="consola">Consolas</option>
+                                </select>
+                            </div>
+                            <div class="layer-editor-input-row">
+                                <span class="editor-label">Size: </span>
+                                <select class="editor-input">
+                                    <option value="80">80</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                    <option value="140">140</option>
+                                </select>
+                            </div>
+                            <div class="layer-editor-input-row">
+                                <span class="editor-label">Color: </span>
+                                <input type="color">
+                            </div>
+                            <i class="fas fa-save"></i>
+                        </div>
+                        <hr>
+                        <div class="layers">
+                            <div class="layer">
+                                <i class="fas fa-cog"></i>
+                                <div>Layer 1</div>
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="layer">
+                                <i class="fas fa-cog"></i>
+                                <div>Layer 2</div>
+                                <i class="fa fa-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- <canvas id="canvas" width="1024" height="768"></canvas> -->
-            <canvas id="canvas"></canvas>
         </div>
         <div class="footer-div">
             <span><small>Copyright © 2021 Dillard's Inc.</small></span>
@@ -64,6 +114,7 @@
     <script src="../assets/evo-calendar/js/evo-calendar.js"></script>
     <script src="../assets/scripts/layout.js"></script>
     <script src="../assets/scripts/canvas.js"></script>
+    <script src="../assets/scripts/admin.js"></script>
     <script src="../assets/scripts/calendar.js"></script>
 </body>
 </html>

@@ -28,28 +28,28 @@
 
     // clear the canvas & redraw all texts
     function draw() {
-      //ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(imageObj, 0, 0, ctx.canvas.width, ctx.canvas.height);
-      for (var i = 0; i < texts.length; i++) {
-        var text = texts[i];
-        // ctx.font = "80px consolas";
-        const fontStyle = $("#font-selector").val();
-        const fontSize = $("#font-size").val();
-        const fontColor = $("#font-color").val();
-        ctx.font = `${fontSize}px ${fontStyle}`;
-        ctx.fillStyle = `${fontColor}`;
-        ctx.fillText(text.text, text.x, text.y);
-      }
+        ctx.drawImage(imageObj, 0, 0, ctx.canvas.width, ctx.canvas.height);
     }
 
-    function pushNew() {
-        
+    function move() {
+        ctx.drawImage(imageObj, 0, 0, ctx.canvas.width, ctx.canvas.height);
+        for (let i = 0; i < texts.length; i++) {
+            const text = texts[i];
+            pushNew(text)
+            ctx.fillText(text.text, text.x, text.y);
+        }
+    }
+
+    function pushNew(text) {
+        ctx.font = `${text.fontSize}px ${text.fontStyle}`;
+        ctx.fillStyle = `${text.fontColor}`;
+        ctx.fillText(text.text, text.x, text.y);
     }
 
     // test if x,y is inside the bounding box of texts[textIndex]
     function textHittest(x, y, textIndex) {
-      var text = texts[textIndex];
-      return (x >= text.x && x <= text.x + text.width && y >= text.y - text.height && y <= text.y);
+        var text = texts[textIndex];
+        return (x >= text.x && x <= text.x + text.width && y >= text.y - text.height && y <= text.y);
     }
 
     // handle mousedown events
@@ -57,27 +57,27 @@
     // mousedown'ed on one of them
     // If yes, set the selectedText to the index of that text
     function handleMouseDown(e) {
-      e.preventDefault();
-      startX = parseInt(e.pageX - offsetX);
-      startY = parseInt(e.pageY - offsetY);
-      // Put your mousedown stuff here
-      for (var i = 0; i < texts.length; i++) {
-        if (textHittest(startX, startY, i)) {
-          selectedText = i;
+        e.preventDefault();
+        startX = parseInt(e.pageX - offsetX);
+        startY = parseInt(e.pageY - offsetY);
+        // Put your mousedown stuff here
+        for (var i = 0; i < texts.length; i++) {
+            if (textHittest(startX, startY, i)) {
+            selectedText = i;
+            }
         }
-      }
     }
 
     // done dragging
     function handleMouseUp(e) {
-      e.preventDefault();
-      selectedText = -1;
+        e.preventDefault();
+        selectedText = -1;
     }
 
     // also done dragging
     function handleMouseOut(e) {
-      e.preventDefault();
-      selectedText = -1;
+        e.preventDefault();
+        selectedText = -1;
     }
 
     // handle mousemove events
@@ -85,60 +85,78 @@
     // the last mousemove event and move the selected text
     // by that distance
     function handleMouseMove(e) {
-      if (selectedText < 0) {
-        return;
-      }
-      e.preventDefault();
-      mouseX = parseInt(e.pageX - offsetX);
-      mouseY = parseInt(e.pageY - offsetY);
+        if (selectedText < 0) {
+            return;
+        }
+        e.preventDefault();
+        mouseX = parseInt(e.pageX - offsetX);
+        mouseY = parseInt(e.pageY - offsetY);
 
-      // Put your mousemove stuff here
-      var dx = mouseX - startX;
-      var dy = mouseY - startY;
-      startX = mouseX;
-      startY = mouseY;
+        // Put your mousemove stuff here
+        let dx = mouseX - startX;
+        let dy = mouseY - startY;
+        startX = mouseX;
+        startY = mouseY;
 
-      var text = texts[selectedText];
-      text.x += dx;
-      text.y += dy;
-      draw();
+        let text = texts[selectedText];
+        text.x += dx;
+        text.y += dy;
+        move();
     }
 
     // listen for mouse events
     $("#canvas").mousedown(function(e) {
-      handleMouseDown(e);
+        handleMouseDown(e);
     });
     $("#canvas").mousemove(function(e) {
-      handleMouseMove(e);
+        handleMouseMove(e);
     });
     $("#canvas").mouseup(function(e) {
-      handleMouseUp(e);
+        handleMouseUp(e);
     });
     $("#canvas").mouseout(function(e) {
-      handleMouseOut(e);
+        handleMouseOut(e);
     });
 
     $("#submit").click(function() {
+        const fontStyle = $("#font-selector").val();
+        const fontSize = $("#font-size").val();
+        const fontColor = $("#font-color").val();
+        // calc the y coordinate for this text on the canvas
+        // var y = texts.length * 20 + 20;
+        var y = texts.length * 20 + Number($("#font-size").val());
 
-      // calc the y coordinate for this text on the canvas
-      var y = texts.length * 20 + 20;
+        // get the text from the input element
+        var text = {
+            text: $("#theText").val(),
+            x: 20,
+            y: y,
+            fontColor: fontColor,
+            fontStyle: fontStyle,
+            fontSize: fontSize
+        };
 
-      // get the text from the input element
-      var text = {
-        text: $("#theText").val(),
-        x: 20,
-        y: y
-      };
+        // calc the size of this text for hit-testing purposes
+        // ctx.font = "80px consolas";
+        text.width = ctx.measureText(text.text).width;
 
-      // calc the size of this text for hit-testing purposes
-      ctx.font = "80px consolas";
-      text.width = ctx.measureText(text.text).width;
-      text.height = 80;
+        if (text.width < 80) {
+            text.width = 80;
+        }
 
-      // put this new text in the texts array
-      texts.push(text);
+        // text.height = Number($("#font-size").val());
+        text.height = 80;
 
-      // redraw everything
-      draw();
+        // put this new text in the texts array
+        texts.push(text);
 
+        // redraw everything
+        //   draw();
+        pushNew(text);
+
+        // console.log(texts)
     });
+
+$(document).ready(function() {
+    draw();
+});
