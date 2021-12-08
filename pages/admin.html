@@ -37,20 +37,39 @@
             <div class="slide-editor">
                 <h4>Create Slide</h4>
                 <div class="add-text">
+                    <div id="import-div">Import</div>
+                    <input type="file" id="importer" name="importer" accept="application/JSON" hidden>
+                    <div id="uploader-div">Upload Image</div>
+                    <input type="file" id="uploader" name="uploader" hidden>
                     <input id="theText" class="newText" type="text" placeholder="Insert text...">
                     <select id="font-selector">
                         <option value="Arial">Arial</option>
+                        <option value="Brush Script MT">Brush Script MT</option>
                         <option value="Comic Sans MS">Comic Sans MS</option>
-                        <option value="consola">Consolas</option>
+                        <option value="Consola">Consolas</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Garamond">Garamond</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Tahoma">Tahoma</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
                     </select>
                     <select id="font-size">
+                        <option value="40">40</option>
+                        <option value="60">60</option>
                         <option value="80">80</option>
                         <option value="100">100</option>
                         <option value="120">120</option>
                         <option value="140">140</option>
                     </select>
-                    <input type="color" id="font-color" name="font-color" value="#e66465">
+                    <input type="color" id="font-color" name="font-color" value="#000000">
                     <button id="submit">Add Text</button>
+                    <div class="canvas-options">
+                        <button id="save">Save</button>
+                        <button id="download">Download</button>
+                    </div>
                 </div>
                 <div class="interface">
                     <canvas id="canvas"></canvas>
@@ -58,23 +77,35 @@
                         <div class="layer-editor">
                             <div class="layer-editor-header">
                                 <span>Edit Layer</span>
-                                <i class="fas fa-chevron-up"></i>
+                                <input id="editor-id" hidden>
+                                <i class="editor-arrow fas fa-chevron-down"></i>
                             </div>
                             <div class="layer-editor-input-row">
                                 <span class="editor-label">Text: </span>
-                                <input class="editor-input">
+                                <input id="editor-text" class="editor-input">
                             </div>
                             <div class="layer-editor-input-row">
                                 <span class="editor-label">Font: </span>
-                                <select class="editor-input">
+                                <select id="editor-font" class="editor-input">
                                     <option value="Arial">Arial</option>
+                                    <option value="Brush Script MT">Brush Script MT</option>
                                     <option value="Comic Sans MS">Comic Sans MS</option>
-                                    <option value="consola">Consolas</option>
+                                    <option value="Consola">Consolas</option>
+                                    <option value="Courier New">Courier New</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Garamond">Garamond</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Verdana">Verdana</option>
+                                    <option value="Tahoma">Tahoma</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Trebuchet MS">Trebuchet MS</option>
                                 </select>
                             </div>
                             <div class="layer-editor-input-row">
                                 <span class="editor-label">Size: </span>
-                                <select class="editor-input">
+                                <select id="editor-size" class="editor-input">
+                                    <option value="40">40</option>
+                                    <option value="60">60</option>
                                     <option value="80">80</option>
                                     <option value="100">100</option>
                                     <option value="120">120</option>
@@ -83,22 +114,15 @@
                             </div>
                             <div class="layer-editor-input-row">
                                 <span class="editor-label">Color: </span>
-                                <input type="color">
+                                <input id="editor-color" type="color">
                             </div>
-                            <i class="fas fa-save"></i>
+                            <div class="editor-save-div">
+                                <i class="fas fa-save editor-save"></i>
+                            </div>
+                            
                         </div>
                         <hr>
                         <div class="layers">
-                            <div class="layer">
-                                <i class="fas fa-cog"></i>
-                                <div>Layer 1</div>
-                                <i class="fa fa-times"></i>
-                            </div>
-                            <div class="layer">
-                                <i class="fas fa-cog"></i>
-                                <div>Layer 2</div>
-                                <i class="fa fa-times"></i>
-                            </div>
                         </div>
                     </div>
                 </div>

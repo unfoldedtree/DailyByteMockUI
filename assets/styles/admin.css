@@ -6,9 +6,6 @@
     display: flex;
     padding: 15px 15px 0px 15px;
     justify-content: center !important;
-    /* flex-direction: row; */
-    /* width: 80% !important; */
-    /* align-items: flex-start !important; */
 }
 
 .interface {
@@ -16,12 +13,27 @@
     display: flex;
 }
 
+.slide-tools::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.slide-tools::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
+}
+
+.slide-tools::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .slide-tools {
     margin: 20px 0 20px 2px;
     width: 250px;
     border: 1px solid #000;
     background-color: #fff;
-    height: 576;
+    height: 576px;
+    overflow: auto;
 }
 
 .layer-editor-header {
@@ -33,7 +45,22 @@
 }
 
 .layer-editor {
-    padding: 10px;
+    transition: max-height 0.5s linear;
+    overflow: hidden;
+    max-height: 30px;
+    padding: 10px 10px 0 10px;
+}
+
+.layer-editor.open {
+    max-height: 500px;
+}
+
+.layer-editor .editor-arrow {
+    transition: transform 0.5s linear;
+}
+
+.layer-editor.open .editor-arrow {
+    transform: rotate(180deg);
 }
 
 .layer-editor i {
@@ -64,6 +91,24 @@
     width: 50px;
 }
 
+.editor-save-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editor-save-div i {
+    border-radius: 25px;
+    background-color: #000;
+    color: #fff;
+    width: 50px;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .layers {
     display: flex;
     flex-direction: column;
@@ -73,6 +118,7 @@
 }
 
 .layer {
+    cursor: default;
     width: 100%;
     display: flex;
     align-items: center;
@@ -133,6 +179,7 @@ input[type=color]::-webkit-color-swatch-wrapper {
 
 #canvas {
     border: 1px solid #000;
+    background-color: #fff;
     /* width: 80%; */
     margin: 20px 0px;
     /* min-height: 70vh; */
@@ -140,10 +187,20 @@ input[type=color]::-webkit-color-swatch-wrapper {
     height: 576px;
 }
 
-button {
-  background-color: #000000;
-  color: #ffffff;
-  border-radius: 25px;
-  border: none;
-  padding: 5px 10px;
+#submit, #import-div, #uploader-div, #download, #save {
+    cursor: pointer;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 25px;
+    border: none;
+    padding: 5px 10px;
+}
+
+#uploader-div, #import-div, #save {
+    margin-right: 10px;
+}
+
+.canvas-options {
+    display: flex;
+    margin-left: auto;
 }
