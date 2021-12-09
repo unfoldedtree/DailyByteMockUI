@@ -164,6 +164,8 @@
             pushNew(text);
             addToLayerTool(text, (texts.length - 1));
             $("#theText").val("")
+            $("#font-selector").val("Arial")
+            $("#font-size").val(40)
             }
     });
 
@@ -216,7 +218,7 @@
         $('#editor-id').val('')
         $('#editor-text').val('')
         $('#editor-font').val("Arial")
-        $('#editor-size').val(80)
+        $('#editor-size').val(40)
         $('#editor-color').val('#000000')
     }
 
@@ -301,6 +303,21 @@ $("#save").on("click", function() {
     downloadObjectAsJson(newObj, "test-template")
 })
 
+$("#rotate").on("click", function() {
+    if ($("#rotate").hasClass("landscape")) {
+        $("#rotate").removeClass("landscape")
+        $("#rotate").addClass("portrait")
+        canvas.width = 324;
+        canvas.height = 576;
+    } else if ($("#rotate").hasClass("portrait")) {
+        $("#rotate").removeClass("portrait")
+        $("#rotate").addClass("landscape")
+        canvas.width = 1024;
+        canvas.height = 576;
+    }
+})
+
 $(document).ready(function() {
     // draw();
 });
+

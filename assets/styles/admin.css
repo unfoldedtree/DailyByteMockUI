@@ -187,7 +187,7 @@ input[type=color]::-webkit-color-swatch-wrapper {
     height: 576px;
 }
 
-#submit, #import-div, #uploader-div, #download, #save {
+#submit, #import-div, #uploader-div, #download, #save, #rotate {
     cursor: pointer;
     background-color: #000000;
     color: #ffffff;
@@ -196,7 +196,7 @@ input[type=color]::-webkit-color-swatch-wrapper {
     padding: 5px 10px;
 }
 
-#uploader-div, #import-div, #save {
+#uploader-div, #import-div, #save, #rotate {
     margin-right: 10px;
 }
 
