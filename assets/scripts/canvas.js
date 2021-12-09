@@ -26,9 +26,44 @@
 
     // an array to hold text objects
     var texts = [];
+    var storedObjects = []
 
     // this var will hold the index of the hit-selected text
     var selectedText = -1;
+
+    function drawTemplate(data, index) {
+        const tempTexts = data.texts;
+        const tempImg = new Image();
+        tempImg.onload = function() {
+            const tempCanvas = document.getElementById(`canvas-${index}`);
+            const templateCtx = tempCanvas.getContext("2d");
+            const $tempCanvas = $(`#canvas-${index}`);
+            templateCtx.canvas.width  = $tempCanvas.innerWidth();
+            templateCtx.canvas.height  = $tempCanvas.innerHeight();
+            const tempRatio = Math.min( tempCanvas.width / this.width, tempCanvas.height / this.height);
+            const newHeight = this.height * tempRatio;
+            const newWidth = this.width * tempRatio;
+            const sizeRatio = Math.min( tempCanvas.width / canvas.width, tempCanvas.height / canvas.height);
+
+            templateCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+            templateCtx.drawImage(this, tempCanvas.width / 2 - newWidth / 2, tempCanvas.height / 2 - newHeight / 2, newWidth, newHeight );
+
+            tempTexts.forEach(tempText => {
+                pushNewTemplate(tempText, tempRatio, index)
+                templateCtx.fillText(tempText.text, (tempText.x * sizeRatio), (tempText.y * sizeRatio));
+            })
+        }
+        tempImg.src = data.img;
+    }
+
+    function pushNewTemplate(tempText, tempRatio, index) {
+        const tempCanvas = document.getElementById(`canvas-${index}`);
+        const templateCtx = tempCanvas.getContext("2d");
+        const sizeRatio = Math.min( tempCanvas.width / canvas.width, tempCanvas.height / canvas.height);
+        templateCtx.font = `${(tempText.fontSize * sizeRatio)}px ${tempText.fontStyle}`;
+        templateCtx.fillStyle = `${tempText.fontColor}`;
+        templateCtx.fillText(tempText.text, (tempText.x * sizeRatio), (tempText.y * sizeRatio));
+    }
 
     // clear the canvas & redraw all texts
     function draw() {
@@ -126,19 +161,19 @@
         draw();
     }
 
-    // listen for mouse events
-    $("#canvas").mousedown(function(e) {
-        handleMouseDown(e);
-    });
-    $("#canvas").mousemove(function(e) {
-        handleMouseMove(e);
-    });
-    $("#canvas").mouseup(function(e) {
-        handleMouseUp(e);
-    });
-    $("#canvas").mouseout(function(e) {
-        handleMouseOut(e);
-    });
+// listen for mouse events
+$("#canvas").mousedown(function(e) {
+    handleMouseDown(e);
+});
+$("#canvas").mousemove(function(e) {
+    handleMouseMove(e);
+});
+$("#canvas").mouseup(function(e) {
+    handleMouseUp(e);
+});
+$("#canvas").mouseout(function(e) {
+    handleMouseOut(e);
+});
 
     $("#submit").click(function() {
         if ($("#theText").val()) {
@@ -169,10 +204,10 @@
             }
     });
 
-    function reloadLayerTool() {
-        $(".layers").html("")
-        texts.forEach((text, index) => addToLayerTool(text, index))
-    }
+function reloadLayerTool() {
+    $(".layers").html("")
+    texts.forEach((text, index) => addToLayerTool(text, index))
+}
 
     function addToLayerTool(text, i) {
          $(`<div id="layer-${i}" class="layer">
@@ -210,17 +245,17 @@
             }
             texts.splice(layerId, 1)
             reloadLayerTool()
-            move()
+            draw()
         })
     }
 
-    function resetInputs() {
-        $('#editor-id').val('')
-        $('#editor-text').val('')
-        $('#editor-font').val("Arial")
-        $('#editor-size').val(40)
-        $('#editor-color').val('#000000')
-    }
+function resetInputs() {
+    $('#editor-id').val('')
+    $('#editor-text').val('')
+    $('#editor-font').val("Arial")
+    $('#editor-size').val(40)
+    $('#editor-color').val('#000000')
+}
 
 $(".editor-save").on('click', function() {
     const text = texts[$('#editor-id').val()]
@@ -232,7 +267,7 @@ $(".editor-save").on('click', function() {
         resetInputs()
         $(".layer-editor").removeClass("open");
         reloadLayerTool()
-        move()
+        draw()
     }
 })
 
@@ -262,6 +297,15 @@ $("#importer").change(function (e) {
         jsonReader.readAsText(e.target.files[0])
     }
 })
+
+function loadStoredDocument (storedDocument) {
+    imageObj.onload = () => {
+        draw();
+    }
+    texts = storedDocument.texts;
+    imageObj.src = storedDocument.img;
+    reloadLayerTool()
+}
 
 $("#uploader").change(function (e) {
     if (e.target.files[0]) {
@@ -317,7 +361,59 @@ $("#rotate").on("click", function() {
     }
 })
 
+function asyncAjax(url){
+    return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                beforeSend: function() {            
+                },
+                success: function(data) {
+                    resolve(data) // Resolve promise and when success
+                },
+                error: function(err) {
+                    reject(err) // Reject the promise and go to catch()
+                }
+            });
+    });
+}
+
+async function getDocuments() {
+    return new Promise(async (resolve, reject) => {
+        const dataArray = [];
+        for (let i = 0; i < 5; i++) {
+            if (i == 0) {
+                let data = await asyncAjax('/assets/json-templates/test-template.json')
+                dataArray.push(data)
+            } else {
+                let data = await asyncAjax(`/assets/json-templates/test-template (${i}).json`)
+                dataArray.push(data)
+            }
+        }
+        resolve(dataArray) 
+    })
+}
+
+async function processDocuments() {
+    const documents = await getDocuments()
+    documents.forEach((document, index) => {
+        storedObjects.push(document)
+        $(".template-select").append(
+            $(`
+            <div class="template">
+                <canvas id="canvas-${index}"></canvas>
+            </div>
+        `)
+        .click(function () {
+            loadStoredDocument(storedObjects[index])
+        })
+        );
+        drawTemplate(document, index)
+    })
+}
+
 $(document).ready(function() {
-    // draw();
+    processDocuments();
 });
 
