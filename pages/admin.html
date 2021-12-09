@@ -37,9 +37,17 @@
             <div class="slide-editor">
                 <h4>Create Slide</h4>
                 <div class="add-text">
-                    <div id="import-div">Import</div>
+                    <div id="file-dropdown" class="dropdown">
+                        <button class="file-dropdown-btn">Options&nbsp;&nbsp;<i class="fas fa-caret-down"></i></button>
+                        <div class="file-dropdown-content">
+                            <div id="import-div" class="file-dropdown-option">Import</div>
+                            <div id="uploader-div" class="file-dropdown-option">Upload Image</div>
+                            <div id="template-open-div" class="file-dropdown-option">From Template</div>
+                            <div id="save" class="file-dropdown-option">Save</div>
+                            <div id="download" class="file-dropdown-option">Download</div>
+                        </div>
+                    </div>
                     <input type="file" id="importer" name="importer" accept="application/JSON" hidden>
-                    <div id="uploader-div">Upload Image</div>
                     <input type="file" id="uploader" name="uploader" hidden>
                     <input id="theText" class="newText" type="text" placeholder="Insert text...">
                     <select id="font-selector">
@@ -68,8 +76,7 @@
                     <button id="submit">Add Text</button>
                     <div class="canvas-options">
                         <!-- <button id="rotate" class="landscape"><i class="fas fa-sync-alt"></i></button> -->
-                        <button id="save">Save</button>
-                        <button id="download">Download</button>
+                        
                     </div>
                 </div>
                 <div class="interface">
@@ -126,13 +133,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="template-select"></div>
             </div>
         </div>
         <div class="footer-div">
             <span><small>Copyright © 2021 Dillard's Inc.</small></span>
         </div>
     </div>
+        <div id="template-modal" class="modal">
+            <div class="modal-content">
+                <i class="fas fa-times close-template"></i>
+                <div class="template-select"></div>
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/js/bootstrap.min.js" integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

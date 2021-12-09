@@ -413,7 +413,16 @@ async function processDocuments() {
     })
 }
 
-$(document).ready(function() {
+$("#template-open-div").on("click", function () {
+    $("#template-modal").css("display","block")
     processDocuments();
+})
+
+$(".close-template").on("click", function () {
+    $("#template-modal").css("display","none")
+})
+
+$(document).ready(function() {
+    
 });
 
