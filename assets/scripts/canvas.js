@@ -308,6 +308,8 @@ $("#importer").change(function (e) {
 })
 
 function loadStoredDocument (storedDocument) {
+    sessionStorage.setItem('storedTemplate', JSON.stringify(storedDocument))
+    $(`#save`).data("id", storedDocument.id)
     imageObj.onload = () => {
         draw();
     }
@@ -358,14 +360,32 @@ $("#export").on("click", function() {
     downloadObjectAsJson(newObj, "template")
 })
 
-$("#save").on("click", async function() {
+async function save(asNew) {
+    let setId = null
+    if (!asNew) {
+        setId = $(`#save`).data("id") ? $(`#save`).data("id") : null
+    }
     const newObj = {
+        id: setId,
         img: imageObj.src,
         texts: texts
     }
     const resp = await asyncAjaxPost(`https://mockuiapisimulation.willmcmahan.repl.co/api/new`, newObj)
+    $(`#save`).data("id", resp.id)
+    const returnObj = newObj
+    returnObj.id = resp.id
+    sessionStorage.setItem('storedTemplate', JSON.stringify(returnObj))
     alert(resp.message)
+}
+
+$("#save").on("click", function() {
+    save(false)
 })
+
+$("#save-new").on("click", function() {
+    save(true)
+})
+
 
 $("#rotate").on("click", function() {
     if ($("#rotate").hasClass("landscape")) {
@@ -380,6 +400,22 @@ $("#rotate").on("click", function() {
         canvas.height = 576;
     }
 })
+
+function asyncAjaxDelete(url){
+    return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                dataType: "json",
+                success: function(data) {
+                    resolve(data)
+                },
+                error: function(err) {
+                    reject(err)
+                }
+            });
+    });
+}
 
 function asyncAjaxGet(url){
     return new Promise(function(resolve, reject) {
@@ -447,8 +483,11 @@ async function processDocuments() {
             $(this).addClass('selected')
             loadStoredDocument(storedObjects.find(it => it.id == template.id))
         })
-        newTemplateDiv.querySelector('.fa-times').addEventListener("click", function () {
-            console.log(`Remove Element with id: ${template.id}`)
+        newTemplateDiv.querySelector('.fa-times').addEventListener("click", async function (e) {
+            e.stopPropagation();
+            const resp = await asyncAjaxDelete(`https://mockuiapisimulation.willmcmahan.repl.co/api/remove/${template.id}`)
+            $(`#template-${template.id}`).remove()
+            console.log(`${resp.message} element with Id: ${template.id}`)
         })
         templatesDiv.appendChild(newTemplateDiv)
         drawTemplate(template, template.id)
@@ -456,17 +495,29 @@ async function processDocuments() {
 }
 
 $("#template-open-div").on("click", function () {
+    window.location.hash = "templates"
+    openTemplatesModal()
+})
+
+function openTemplatesModal() {
     $("#template-modal").css("display","block")
     $(".template-select").html("")
     storedObjects = []
     processDocuments();
-})
+}
 
 $(".close-template").on("click", function () {
     $("#template-modal").css("display","none")
+    window.location.hash = ""
 })
 
 $(document).ready(function() {
-    
+    if (window.location.hash.substr(1) == "templates") {
+        openTemplatesModal()
+    }
+    const sessionTemplate = JSON.parse(sessionStorage.getItem('storedTemplate'))
+    if (sessionTemplate) {
+        loadStoredDocument(sessionTemplate)
+    }
 });
 

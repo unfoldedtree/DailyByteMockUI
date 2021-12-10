@@ -268,12 +268,12 @@ input[type=color]::-webkit-color-swatch-wrapper {
 }
 
 .template i {
+    padding: 5px 7px;
+    border-radius: 25px;
     color: rgb(136, 33, 33);
     cursor: pointer;
     position: absolute;
     transform: translateX(-100%);
-    top: 5px;
-    right: -5px;
 }
 
 .template i:hover {
