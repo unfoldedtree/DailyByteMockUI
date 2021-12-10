@@ -31,13 +31,13 @@
     // this var will hold the index of the hit-selected text
     var selectedText = -1;
 
-    function drawTemplate(data, index) {
+    function drawTemplate(data, id) {
         const tempTexts = data.texts;
         const tempImg = new Image();
         tempImg.onload = function() {
-            const tempCanvas = document.getElementById(`canvas-${index}`);
+            const tempCanvas = document.getElementById(`canvas-${id}`);
             const templateCtx = tempCanvas.getContext("2d");
-            const $tempCanvas = $(`#canvas-${index}`);
+            const $tempCanvas = $(`#canvas-${id}`);
             templateCtx.canvas.width  = $tempCanvas.innerWidth();
             templateCtx.canvas.height  = $tempCanvas.innerHeight();
             const tempRatio = Math.min( tempCanvas.width / this.width, tempCanvas.height / this.height);
@@ -47,17 +47,24 @@
 
             templateCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
             templateCtx.drawImage(this, tempCanvas.width / 2 - newWidth / 2, tempCanvas.height / 2 - newHeight / 2, newWidth, newHeight );
-
-            tempTexts.forEach(tempText => {
-                pushNewTemplate(tempText, tempRatio, index)
-                templateCtx.fillText(tempText.text, (tempText.x * sizeRatio), (tempText.y * sizeRatio));
-            })
+            if (tempTexts) {
+                tempTexts.forEach(tempText => {
+                    tempText.x = Number(tempText.x)
+                    tempText.y = Number(tempText.y)
+                    tempText.width = Number(tempText.width)
+                    tempText.height = Number(tempText.height)
+                    pushNewTemplate(tempText, tempRatio, id)
+                    templateCtx.fillText(tempText.text, (tempText.x * sizeRatio), (tempText.y * sizeRatio));
+                })
+            }
         }
-        tempImg.src = data.img;
+        if (data.img) {
+            tempImg.src = data.img;
+        }
     }
 
-    function pushNewTemplate(tempText, tempRatio, index) {
-        const tempCanvas = document.getElementById(`canvas-${index}`);
+    function pushNewTemplate(tempText, tempRatio, id) {
+        const tempCanvas = document.getElementById(`canvas-${id}`);
         const templateCtx = tempCanvas.getContext("2d");
         const sizeRatio = Math.min( tempCanvas.width / canvas.width, tempCanvas.height / canvas.height);
         templateCtx.font = `${(tempText.fontSize * sizeRatio)}px ${tempText.fontStyle}`;
@@ -206,7 +213,9 @@ $("#canvas").mouseout(function(e) {
 
 function reloadLayerTool() {
     $(".layers").html("")
-    texts.forEach((text, index) => addToLayerTool(text, index))
+    if (texts) {
+        texts.forEach((text, index) => addToLayerTool(text, index))
+    }
 }
 
     function addToLayerTool(text, i) {
@@ -220,11 +229,11 @@ function reloadLayerTool() {
         $(`#layer-${i}`).data("fontColor", text.fontColor)
         $(`#layer-${i}`).data("fontSize", text.fontSize)
         $(`#layer-${i}`).data("fontStyle", text.fontStyle)
-        $(`#layer-${i}`).data("height", text.height)
-        $(`#layer-${i}`).data("width", text.width)
+        $(`#layer-${i}`).data("height", Number(text.height))
+        $(`#layer-${i}`).data("width", Number(text.width))
         $(`#layer-${i}`).data("text", text.text)
-        $(`#layer-${i}`).data("x", text.x)
-        $(`#layer-${i}`).data("y", text.y)
+        $(`#layer-${i}`).data("x", Number(text.x))
+        $(`#layer-${i}`).data("y", Number(text.y))
 
         $(`#layer-${i} .layer-edit`).on('click', function() {
             layerData = $(`#layer-${i}`).data()
@@ -303,7 +312,9 @@ function loadStoredDocument (storedDocument) {
         draw();
     }
     texts = storedDocument.texts;
-    imageObj.src = storedDocument.img;
+    if (storedDocument.img) {
+        imageObj.src = storedDocument.img;
+    }
     reloadLayerTool()
 }
 
@@ -339,12 +350,21 @@ function downloadObjectAsJson(exportObj, exportName){
     downloadAnchorNode.remove();
   }
 
-$("#save").on("click", function() {
+$("#export").on("click", function() {
     const newObj = {
         img: imageObj.src,
         texts: texts
     }
-    downloadObjectAsJson(newObj, "test-template")
+    downloadObjectAsJson(newObj, "template")
+})
+
+$("#save").on("click", async function() {
+    const newObj = {
+        img: imageObj.src,
+        texts: texts
+    }
+    const resp = await asyncAjaxPost(`https://mockuiapisimulation.willmcmahan.repl.co/api/new`, newObj)
+    alert(resp.message)
 })
 
 $("#rotate").on("click", function() {
@@ -361,19 +381,34 @@ $("#rotate").on("click", function() {
     }
 })
 
-function asyncAjax(url){
+function asyncAjaxGet(url){
     return new Promise(function(resolve, reject) {
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: "json",
-                beforeSend: function() {            
-                },
                 success: function(data) {
-                    resolve(data) // Resolve promise and when success
+                    resolve(data)
                 },
                 error: function(err) {
-                    reject(err) // Reject the promise and go to catch()
+                    reject(err)
+                }
+            });
+    });
+}
+
+function asyncAjaxPost(url, data){
+    return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: "json",
+                data: data,
+                success: function(data) {
+                    resolve(data)
+                },
+                error: function(err) {
+                    reject(err)
                 }
             });
     });
@@ -381,40 +416,49 @@ function asyncAjax(url){
 
 async function getDocuments() {
     return new Promise(async (resolve, reject) => {
-        const dataArray = [];
-        for (let i = 0; i < 5; i++) {
-            if (i == 0) {
-                let data = await asyncAjax('/assets/json-templates/test-template.json')
-                dataArray.push(data)
-            } else {
-                let data = await asyncAjax(`/assets/json-templates/test-template (${i}).json`)
-                dataArray.push(data)
-            }
+        let dataArray = []
+        const result = await asyncAjaxGet(`https://mockuiapisimulation.willmcmahan.repl.co/api`)
+        if (result.data) {
+            dataArray = result.data 
         }
         resolve(dataArray) 
     })
 }
 
 async function processDocuments() {
-    const documents = await getDocuments()
-    documents.forEach((document, index) => {
-        storedObjects.push(document)
-        $(".template-select").append(
-            $(`
-            <div class="template">
-                <canvas id="canvas-${index}"></canvas>
-            </div>
+    const templatesDiv = document.querySelector('.template-select')
+    let templates = []
+    let result = await getDocuments()
+    for (property in result) {
+        templates.push(result[property])
+    }
+    templates.forEach((template, index) => {
+        storedObjects.push(template)
+        const newTemplateDiv = document.createElement('div')
+        newTemplateDiv.classList.add('template')
+        newTemplateDiv.id = `template-${template.id}`
+        newTemplateDiv.setAttribute("data-id", template.id)
+        newTemplateDiv.innerHTML = (`
+            <canvas id="canvas-${template.id}"></canvas>
+            <i class="fas fa-times"></i>
         `)
-        .click(function () {
-            loadStoredDocument(storedObjects[index])
+        newTemplateDiv.addEventListener("click", function () {
+            $(".template").removeClass('selected')
+            $(this).addClass('selected')
+            loadStoredDocument(storedObjects.find(it => it.id == template.id))
         })
-        );
-        drawTemplate(document, index)
+        newTemplateDiv.querySelector('.fa-times').addEventListener("click", function () {
+            console.log(`Remove Element with id: ${template.id}`)
+        })
+        templatesDiv.appendChild(newTemplateDiv)
+        drawTemplate(template, template.id)
     })
 }
 
 $("#template-open-div").on("click", function () {
     $("#template-modal").css("display","block")
+    $(".template-select").html("")
+    storedObjects = []
     processDocuments();
 })
 
